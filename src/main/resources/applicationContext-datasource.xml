@@ -11,6 +11,7 @@
 
     <context:component-scan base-package="com.mall" annotation-config="true"/>
 
+    <!--配置Spring文件时，把里面的常量进行分离，分离到datasource.properties里-->
     <bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="order" value="2"/>
@@ -23,7 +24,7 @@
         <property name="fileEncoding" value="utf-8"/>
     </bean>
 
-
+    <!--数据库用的dncp连接池-->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${db.driverClassName}"/>
         <property name="url" value="${db.url}"/>
@@ -40,7 +41,7 @@
         <!-- 最大建立连接等待时间。如果超过此时间将接到异常。设为－1表示无限制 -->
         <property name="maxWait" value="${db.maxWait}"/>
         <!--#给出一条简单的sql语句进行验证 -->
-         <!--<property name="validationQuery" value="select getdate()" />-->
+        <!-- <property name="validationQuery" value="select getdate()" />-->
         <property name="defaultAutoCommit" value="${db.defaultAutoCommit}"/>
         <!-- 回收被遗弃的（一般是忘了释放的）数据库连接到连接池中 -->
          <!--<property name="removeAbandoned" value="true" />-->
@@ -57,10 +58,12 @@
         <property name="validationQuery" value="SELECT 1 FROM dual"/>
     </bean>
 
+    <!--ref="dataSource"的dataSource就是上面的bean id-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--通过Spring往SqlSessionFactoryBean里注入dataSource-->
         <property name="dataSource" ref="dataSource"/>
         <!-- 把Mybatis的SQL实现都读取到 -->
-        <property name="mapperLocations" value="classpath*:mappers/*Mapper.xml"></property>
+        <property name="mapperLocations" value="classpath*:mappers/*Mapper.xml"/>
 
         <!-- 分页插件 -->
         <property name="plugins">
@@ -77,6 +80,7 @@
 
     </bean>
 
+    <!--Mybatis的扫描，扫描Dao层-->
     <bean name="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.mall.dao"/>
     </bean>

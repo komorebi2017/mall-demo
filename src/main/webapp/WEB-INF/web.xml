@@ -21,6 +21,15 @@
     </filter>
     <filter-mapping>
         <filter-name>characterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern><!--所有的强求都会拦截，走CharacterEncodingFilter，直接转Utf8-->
+    </filter-mapping>
+
+    <filter>
+        <filter-name>contextFilter</filter-name>
+        <filter-class>com.mall.util.ServerUtil</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>contextFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
@@ -30,22 +39,25 @@
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
 
-    <!--将Web容器和Spring容器整合的监听器-->
+    <!--ContextLoaderListener：将Web容器和Spring容器整合的监听器-->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <!--ContextLoaderListener通过applicationContext.xml将Web容器和Spring容器整合-->
+        <!--通过ContextLoaderListener来加载applicationContext.xml-->
         <param-value>
             classpath:applicationContext.xml
         </param-value>
     </context-param>
 
+    <!--SpringMVC的配置-->
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
+        <load-on-startup>1</load-on-startup><!--一个servlet的配置，当配置为>=0时，容器启动时会初始化这个servlet
+        也就是DispatcherServlet，调用它的init方法；当<0或不指定时，只有当这个servlet被选择使用时才会加载-->
     </servlet>
 
 
@@ -54,6 +66,12 @@
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.do</url-pattern>
     </servlet-mapping>
+
+    <session-config>
+
+        <session-timeout>30</session-timeout>
+
+    </session-config>
 
 </web-app>
 

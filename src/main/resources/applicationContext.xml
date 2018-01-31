@@ -10,13 +10,14 @@
      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-    <!--扫描com.mall包下的注解-->
+    <!--扫描com.mall包下的一些注解，可以方便的在类中进行注入-->
     <context:component-scan base-package="com.mall" annotation-config="true"/>
 
     <!--<context:annotation-config/>-->
     <aop:aspectj-autoproxy/>
 
 
+    <!--把当前Spring容器的配置文件进行分离-->
     <import resource="applicationContext-datasource.xml"/>
 
 

@@ -21,7 +21,10 @@
                     </list>
                 </property>
             </bean>
+            <!--自动反序列化时用到的配置类-->
             <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+                <!--supportedMediaTypes就是MappingJacksonHttpMessageConverter类里面要注入的内容
+                    把要配置的属性注入到这个集合value里面，这个SpringMVC返回值就自动通过ResponseBody注解自动序列化成Json-->
                 <property name="supportedMediaTypes">
                     <list>
                         <value>application/json;charset=UTF-8</value>
@@ -34,6 +37,10 @@
 
 
     <!-- 文件上传 -->
+    <!--multipartResolver引用的的是CommonsMultipartResolver，有三个属性分别代表
+        文件上传的最大Size
+        文件上传过程中使用的内存块，单位都是字节
+        编码-->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="10485760"/> <!-- 10m -->
         <property name="maxInMemorySize" value="4096" />
