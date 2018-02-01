@@ -41,20 +41,10 @@ public class UserController {
     @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<User> login(String username, String password, HttpSession session){
-
         // service->mybatis->dao
-        System.out.println("aaaa");
         ServerResponse<User> response = iUserService.login(username,password);
         if(response.isSuccess()){
-            System.out.println("response.getData():"+response.getData());
-
             session.setAttribute(Const.CURRENT_USER,response.getData());
-            User user = (User) session.getAttribute(Const.CURRENT_USER);
-            if(user == null){
-                System.out.println("null");
-            }else {
-                System.out.println("not null:"+user.getId());
-            }
         }
         return response;
     }
