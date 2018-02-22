@@ -1,5 +1,6 @@
 package com.mall.dao;
 
+import com.mall.pojo.Order;
 import com.mall.pojo.OrderItem;
 import org.apache.ibatis.annotations.Param;
 
@@ -26,4 +27,9 @@ public interface OrderItemMapper {
 
     /* 批量insert */
     void batchInsert(@Param("orderItemList") List<OrderItem> orderItemList);
+
+
+
+
+
 }

@@ -9,7 +9,9 @@
 	http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <!-- 包扫描，扫描controller层的注解 -->
-    <context:component-scan base-package="com.mall" annotation-config="true"/>
+    <context:component-scan base-package="com.mall.controller" annotation-config="true" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
 
     <mvc:annotation-driven>
         <mvc:message-converters>
@@ -46,6 +48,21 @@
         <property name="maxInMemorySize" value="4096" />
         <property name="defaultEncoding" value="UTF-8"></property>
     </bean>
+
+
+    <mvc:interceptors>
+        <!--如果在interceptors里设置拦截器，就代表拦截所有的请求-->
+        <!--<bean></bean>-->
+        <mvc:interceptor>
+            <!--manage/a.do     manage/*
+                manage/b.do     manage/*
+                manage/product/save.do      manage/**
+                manage/order/detail.do      manage/**
+                -->
+            <mvc:mapping path="/manage/**"/>
+            <bean class="com.mall.controller.common.interceptor.AuthorityInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
 
 </beans>

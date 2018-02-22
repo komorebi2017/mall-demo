@@ -32,6 +32,26 @@
         <filter-name>contextFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    <!-- 二期新增重置session时间的filter-->
+    <!--这个是自己写的，最终使用Spring官方提供的-->
+    <!--<filter>
+        <filter-name>sessionExpireFilter</filter-name>
+        <filter-class>com.mall.controller.common.SessionExpireFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>sessionExpireFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>-->
+
+    <filter>
+        <filter-name>springSessionRepositoryFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSessionRepositoryFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
+
 
 
     <!--监听器，实现了ServletRequestListener，只负责监听Web容器的启动和关闭的时间-->

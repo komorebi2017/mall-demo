@@ -4,21 +4,34 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="
-     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
-    <!--扫描com.mall包下的一些注解，可以方便的在类中进行注入-->
-    <context:component-scan base-package="com.mall" annotation-config="true"/>
+    <!--扫描com.mall包下的一些注解，可以方便的在类中进行注入
+      要保证所有的Bean都被扫描到-->
+    <context:component-scan base-package="com.mall" annotation-config="true">
+        <!--排除controller注解，把controller注解的扫描交给SpringMVC配置文件 -->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
 
     <!--<context:annotation-config/>-->
+    <!--用这个配置来激活已经注册的Bean，可以在上面的包扫描中 配置： annotation-config="true"-->
+
+
     <aop:aspectj-autoproxy/>
+
+    <!-- 增加Spring schedule时新增的 -->
+    <context:property-placeholder location="classpath:datasource.properties"/>
+    <task:annotation-driven/>
 
 
     <!--把当前Spring容器的配置文件进行分离-->
     <import resource="applicationContext-datasource.xml"/>
+    <import resource="applicationContext-spring-session.xml"/>
 
 
 </beans>
