@@ -69,7 +69,7 @@ public class ServerResponse<T> implements Serializable {
     }
 
     public static <T> ServerResponse<T> createBySuccessMessage(String msg){
-        // 成功事返回一个文本供前端使用
+        // 成功时返回一个文本供前端使用
         return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(),msg);
     }
 

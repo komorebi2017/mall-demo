@@ -36,7 +36,11 @@ public class JsonUtil {
 
         /* 设置序列化 */
 
-        /* 对象的所有字段全部列入 */
+        /* ALWAYS：对象的所有字段全部列入
+        *   ALWAYS,全部字段都有
+            NON_NULL, 非空的才会有
+            NON_DEFAULT, 不是默认值的才会有
+            NON_EMPTY，空字符串是一个empty，但不是null，empty比null更严格一点;*/
         objectMapper.setSerializationInclusion(Inclusion.ALWAYS);
 
         /* 取消默认转换timestamp形式
